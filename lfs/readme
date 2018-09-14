@@ -1,0 +1,4 @@
+mount -o remount,size=4G /run/archiso/cowspace
+
+pacman -S - < packages.txt
+
