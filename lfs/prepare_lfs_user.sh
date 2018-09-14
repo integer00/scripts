@@ -1,5 +1,5 @@
 #!/bin/sh
-mdkir -v $LFS/sources
+mkdir -v $LFS/sources
 mkdir -v $LFS/tools
 ln -sv $LFS/tools /
 
