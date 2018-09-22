@@ -1,3 +1,11 @@
+0)do arch-growdisk.sh
+1)prepare target disk, make filesystem and mount it to /mnt/lfs
+2)do pacman.sh
+3)do prepare-lfs-user.sh
+4)do wget-packages.sh
+5)do su - lfs; then install packages from first_pass.sh & first_pass.sh_part2
+6)change owner ship of $LFS/tools to root "chown -R root:root $LFS/tools"
+
 mount -o remount,size=4G /run/archiso/cowspace
 
 pacman -S - < packages.txt

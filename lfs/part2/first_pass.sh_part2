@@ -1,0 +1,296 @@
+#!/bin/bash
+
+PS3='Select a package to install: '
+options=(
+
+"install diffutils"
+"install file"
+"install findutils"
+"install gawk"
+"install gettext"
+"install grep"
+"install gzip"
+"install make"
+"install patch"
+"install perl"
+"install sed"
+"install tar"
+"install texinfo"
+"install util-linux"
+"install xz"
+
+"quit"
+)
+
+select opt in "${options[@]}"
+do
+    
+	case $opt in
+	    
+"install diffutils")
+
+	cd $LFS/sources;
+	cd diffutils-3.6;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "diffutils installed";
+			fi
+		fi
+	fi
+
+
+	;;
+
+"install file")
+
+
+	cd $LFS/sources;
+	cd file-5.34;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "file installed";
+			fi
+		fi
+	fi
+
+	;;
+
+"install findutils")
+
+	cd $LFS/sources;
+	cd findutils-4.6.0;
+
+	if sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' gl/lib/*.c;then
+		if sed -i '/unistd/a #include <sys/sysmacros.h>' gl/lib/mountlist.c;then
+			if echo "#define _IO_IN_BACKUP 0x100" >> gl/lib/stdio-impl.h;then
+				if ./configure --prefix=/tools;then
+					if make -s;then
+						if make install;then
+							echo "findutils installed"
+						fi
+					fi
+				fi
+			fi
+		fi
+	fi
+
+	;;
+
+"install gawk")
+	
+	cd $LFS/sources;
+	cd gawk-4.2.1;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "gawk installed";
+			fi
+		fi
+	fi
+
+	;;
+
+"install gettext")
+
+	cd $LFS/sources;
+	cd gettext-0.19.8.1/gettext-tools;
+	if EMACS="no" ./configure --prefix=/tools --disable-shared;then
+		if make -C gnulib-lib;then
+			if make -C intl pluralx.c;then
+				if make -C src msgfmt;then
+					if make -C src msgmerge;then
+						if make -C src xgettext;then
+							if cp -v src/{msgfmt,msgmerge,xgettext} /tools/bin;then
+								echo "gettext installed";
+							fi
+						fi
+					fi
+				fi
+			fi
+		fi
+	fi
+
+
+	;;
+
+"install grep")
+	
+	cd $LFS/sources;
+	cd grep-3.1;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "grep installed";
+			fi
+		fi
+	fi
+
+	;;
+
+"install gzip")
+
+	cd $LFS/sources;
+	cd gzip-1.9;
+	if sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' lib/*.c;then
+		if echo "#define _IO_IN_BACKUP 0x100" >> lib/stdio-impl.h;then
+			if ./configure --prefix=/tools;then
+				if make -s;then
+					if make install;then
+						echo "gzip installed";
+					fi
+				fi
+			fi
+		fi
+	fi
+
+	;;
+
+"install make")
+
+	cd $LFS/sources;
+	cd make-4.2.1;
+
+	if sed -i '211,217 d; 219,229 d; 232 d' glob/glob.c;then
+		if ./configure --prefix=/tools --without-guile;then
+			if make -s;then
+				if make install;then
+					echo "make installed";
+				fi
+			fi
+		fi
+	fi
+
+	;;
+
+"install patch")
+
+	cd $LFS/sources;
+	cd patch-2.7.6;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "patch installed";
+			fi
+		fi
+	fi
+
+	;;
+
+"install perl")
+
+	cd $LFS/sources;
+	cd perl-5.28.0;
+
+	if sh Configure -des -Dprefix=/tools -Dlibs=-lm -Uloclibpth -Ulocincpth;then
+		if make -s;then
+			if cp -v perl cpan/podlators/scripts/pod2man /tools/bin;then
+				if mkdir -pv /tools/lib/perl5/5.28.0;then
+					if cp -Rv lib/* /tools/lib/perl5/5.28.0;then
+						echo "perl installed";
+					fi
+				fi
+			fi
+		fi
+	fi
+
+	;;
+
+"install sed")
+
+	cd $LFS/sources;
+	cd sed-4.5;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "sed installed";
+			fi
+		fi
+	fi
+
+	;;
+
+"install tar")
+
+	cd $LFS/sources;
+	cd tar-1.30;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "tar installed";
+			fi
+		fi
+	fi
+
+	;;
+
+"install texinfo")
+	
+	cd $LFS/sources;
+	cd texinfo-6.5;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "texinfo installed";
+			fi
+		fi
+	fi
+
+	;;
+
+"install util-linux")
+
+	cd $LFS/sources;
+	cd util-linux-2.32.1;
+
+	if ./configure --prefix=/tools \
+		--without-python \
+		--disable-makeinstall-chown \
+		--without-systemdsystemunitdir \
+		--without-ncurses \
+		PKG_CONFIG="";then
+	if make -s;then
+		if make install;then
+			echo "util-linux installed";
+		fi
+	fi
+fi
+
+
+	;;
+"install xz")
+
+	cd $LFS/sources;
+	cd xz-5.2.4;
+
+	if ./configure --prefix=/tools;then
+		if make -s;then
+			if make install;then
+				echo "xz installed";
+			fi
+		fi
+	fi
+
+
+	;;
+
+"quit")
+            break
+	    ;;
+	    
+*) echo "invalid option $REPLY"
+	;;
+
+	esac
+done
+
+
