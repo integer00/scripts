@@ -1,15 +1,16 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-trap "exit" INT 
+for var in "$@"
+ do
+  b=$(echo ${var} |sed -E "s/\.webm|\.flac|\.mp4/.mp3/g")
+  ext=${var##*\.}
 
-
-for a in *.{webm,mp4,flac}; do
-
-b=$(echo $a |sed -E "s/\.webm|\.flac|\.mp4/.mp3/g")
-
-
-echo $a
-ffmpeg -i "$a" -acodec libmp3lame -ar 44100 -b:a 320k "$b"
-rm "$a"
-
+  case ${ext} in
+   webm)
+    echo "Processing ${var}"
+    ffmpeg -nostats -loglevel 0 -i "${var}" -vn -ab 320k -ar 44100 -y "${b}" ;;
+   flac)
+    flac -c -d "${var}" | lame -b 320 --resample 44.1 - "${b}" ;;
+  esac
 done
