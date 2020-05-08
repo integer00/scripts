@@ -1,0 +1,13 @@
+brew "wireguard-go"
+brew "wireguard-tools"
+cask "xquartz"
+
+brew "ape"
+brew "lame"
+brew "flac"
+brew "htop"
+brew "jq"
+brew "smartmontools"
+brew "tmux"
+brew "telnet"
+brew "go"
