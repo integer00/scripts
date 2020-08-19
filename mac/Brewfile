@@ -1,16 +1,22 @@
+#usage: brew bundle
+
 brew "wireguard-go"
 brew "wireguard-tools"
 cask "xquartz"
 
-brew "python3"
+brew "python@3.7"
+brew "go"
+
 brew "ape"
 brew "lame"
 brew "flac"
 brew "ffmpeg"
+
 brew "htop"
 brew "jq"
 brew "smartmontools"
 brew "tmux"
 brew "telnet"
-
-brew "go"
+brew "docker"
+brew "docker-machine"
+cask "virtualbox"
